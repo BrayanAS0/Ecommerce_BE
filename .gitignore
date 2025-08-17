@@ -1,0 +1,65 @@
+﻿# Visual Studio y archivos temporales
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Archivos de compilación
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+*.cache
+*.pdb
+*.mdb
+
+# Archivos de publicación
+publish/
+out/
+
+# Paquetes NuGet descargados
+*.nupkg
+packages/
+**/packages/*
+!**/packages/build/
+!**/packages/repositories.config
+
+# Archivos de configuración local
+*.local.settings.json
+appsettings.*.local.json
+
+# NodeJS (si usas front-end)
+node_modules/
+
+# IIS y Web Server
+iisexpress/
+*.vspscc
+*.vssscc
+
+# Archivos de migración temporales (Entity Framework)
+*.jfm
+
+# System/Mac/OS ocultos
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Docker y contenedores
+docker-compose.override.yml
+
+# Otros (quitar si no aplica)
+*.sqlite
+*.db
+*.bak
+
+# Archivos de test coverage
+coverage/
+*.coverage
+TestResults/
+
+# Rider y otros IDEs
+.idea/
+*.sln.iml
