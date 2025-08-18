@@ -1,5 +1,9 @@
-var builder = WebApplication.CreateBuilder(args);
+using ApiEcommerce.Data;
+using Microsoft.EntityFrameworkCore;
 
+var builder = WebApplication.CreateBuilder(args);
+var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");//para optener la conexion
+builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(dbConnectionString));//para conectar la base de datos con el db context
 // Add services to the container.
 
 builder.Services.AddControllers();

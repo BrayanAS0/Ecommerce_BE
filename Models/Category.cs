@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ApiEcommerce.Data;
+namespace ApiEcommerce.Models;
 public class Category
 {
     [Key]
