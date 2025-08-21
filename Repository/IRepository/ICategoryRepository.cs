@@ -9,7 +9,7 @@ namespace ApiEcommerce.Repository.IRepository;
     bool CategoryExits(string name);
     bool CreateCategory(Category category);
     bool UpdateCategory(Category category);
-    bool DeeleteCategory(Category category);
+    bool DeleteCategory(Category category);
     bool Save();
 
 

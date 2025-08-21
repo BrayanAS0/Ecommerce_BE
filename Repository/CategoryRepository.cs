@@ -48,7 +48,7 @@ public ICollection<Category> GetCategories()
         return Save();
     }
 
-    public bool DeeleteCategory(Category category)
+    public bool DeleteCategory(Category category)
     {
         _DbContext.Categories.Remove(category);
         return Save();
