@@ -18,13 +18,13 @@ public ICollection<Category> GetCategories()
         return _DbContext.Categories.OrderBy(x=> x.Name).ToList();
     }
 
-    public Category GetCategory(int id)
+    public Category? GetCategory(int id)
     {
-        return _DbContext.Categories.FirstOrDefault(category => category.Id == id) ?? throw new  InvalidOperationException($"La categoria del {id} no existe");
+        return _DbContext.Categories.FirstOrDefault(category => category.Id == id);
             
     }
 
-    public bool CategoryExists(int id)
+    public bool CategoryExits(int id)
     {
         return _DbContext.Categories.Any(category => category.Id==id);
     }
