@@ -1,0 +1,22 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ApiEcommerce.Models.Dtos
+{
+    public class ProductDto
+    {
+        public int ProductId { set; get; }
+
+        public required Category Category { set; get; }
+        public string Name { get; set; }=string.Empty;
+        public string Description { get; set; } = string.Empty;
+
+        public decimal Price { get; set; }
+        public string ImgUrl { get; set; } = string.Empty;
+        public string SKU { get; set; } = string.Empty;
+        public int Stock { get; set; }
+        public DateTime CreationDate { get; set; } = DateTime.Now;
+        public DateTime? UpdateDate { get; set; } = null;
+    }
+}
+

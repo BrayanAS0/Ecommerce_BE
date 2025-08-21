@@ -1,7 +1,6 @@
 ﻿using ApiEcommerce.Data;
 using ApiEcommerce.Models;
 using ApiEcommerce.Repository.IRepository;
-using Microsoft.EntityFrameworkCore;
 
 namespace ApiEcommerce.Repository;
     public class CategoryRepository:ICategoryRepository
