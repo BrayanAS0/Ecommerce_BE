@@ -17,7 +17,7 @@ public class Product
     public string SKU { get; set; }= string.Empty;
     [Range(0,int.MaxValue)]
     public int Stock { get; set; }
-    public DateTime CreationDate { get; set; } = DateTime.Now;
+    public DateTime CreationDate { get; set; } 
     public DateTime? UpdateDate { get; set; } = null;
 
     public int CategoryId { get; set; }

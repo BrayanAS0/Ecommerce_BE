@@ -9,6 +9,6 @@
         public string ImgUrl { get; set; } = string.Empty;
         public string SKU { get; set; } = string.Empty;
         public int Stock { get; set; }
-        public DateTime UpdateDate { get; set; }= DateTime.Now;
+        public DateTime UpdateDate { get; set; }
     }
 }
