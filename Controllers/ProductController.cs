@@ -87,5 +87,35 @@ public class ProductController:ControllerBase
             return Ok(products);
 
     }
+    [HttpGet("searchProductByNameDescription/{searchTerm}", Name = "SearchProducts")]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public IActionResult SearchProducts(string searchTerm)
+    {
+        if (searchTerm == null) return BadRequest("No content");
+
+        var products = _productRepository.SearchProducts(searchTerm);
+        if(products.Count()==0) return NotFound();
+        var productsDto = _mapper.Map<List<ProductDto>>(products);
+        return Ok(productsDto);
+    }
+    [HttpPatch("buyProduct/{name}/{quantity:int}", Name = "BuyProduct")]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public IActionResult BuyProduct(string name, int quantity)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return BadRequest("Producto no valido");
+        if(quantity <= 0) return BadRequest("La cantidad no es valida");
+        if(!_productRepository.ProductExists(name)) return NotFound();
+        if(!_productRepository.BuyProduct(name, quantity)) return NotFound();
+        return Ok($"Compro {quantity}  de {name}");
+    
+    }
+
+
     }
 

@@ -20,7 +20,7 @@ namespace ApiEcommerce.Repository
 
             var product = _dbContext.Products.First(p => p.Name.ToLower() == name.ToLower());
 
-            if(product.Stock> quantity) return false;
+            if(product.Stock< quantity) return false;
 
             product.Stock = product.Stock- quantity;
             _dbContext.Products.Update(product);
@@ -87,7 +87,6 @@ namespace ApiEcommerce.Repository
             product.Stock = updateDto.Stock;
             product.UpdateDate = DateTime.Now;
             product.CategoryId = updateDto.CategoryId;
-            // No cambies CreationDate
 
             return save();
         }
