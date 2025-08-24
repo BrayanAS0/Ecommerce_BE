@@ -4,11 +4,6 @@ using ApiEcommerce.Models.Dtos;
 namespace ApiEcommerce.Repository.IRepository;
     public interface IProductRepository
     {
-
-
-
-
-
     Product? GetProduct(int id);
     ICollection<Product> GetProducts();
     ICollection<Product> GetProductsForCategory(int CategoryId);

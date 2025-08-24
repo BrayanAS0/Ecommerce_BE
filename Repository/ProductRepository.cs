@@ -30,14 +30,15 @@ namespace ApiEcommerce.Repository
 
         public bool CreateProduct(Product product)
         {
-            if(product== null) return false;
+            if (product == null) return false;
+            product.CreationDate = DateTime.UtcNow;
             _dbContext.Add(product);
             return save();
         }
 
         public bool DelteProduct(Product createProductDto)
         {
-            if (ProductExists(createProductDto.ProductId) || createProductDto ==null) return false;
+            if (!ProductExists(createProductDto.ProductId) || createProductDto ==null) return false;
             _dbContext.Remove(createProductDto);
             return save();
         }
@@ -55,7 +56,7 @@ namespace ApiEcommerce.Repository
 
         public ICollection<Product> GetProductsForCategory(int CategoryId)
         {
-            return _dbContext.Products.Where(x => x.CategoryId == CategoryId).ToList();
+            return _dbContext.Products.Include(p=> p.Category).Where(x => x.CategoryId == CategoryId).ToList();
         }
 
         public bool ProductExists(string name)
@@ -73,14 +74,26 @@ namespace ApiEcommerce.Repository
            return _dbContext.SaveChanges() >0 ?true :false;
         }
 
-        public bool UpdateProduct(Product createProductDto)
+        public bool UpdateProduct(Product updateDto)
         {
-            createProductDto.UpdateDate = DateTime.Now;
-            _dbContext.Products.Update(createProductDto);
+            var product = GetProduct(updateDto.ProductId);
+            if (product == null) return false;
+
+            product.Name = updateDto.Name;
+            product.Description = updateDto.Description;
+            product.Price = updateDto.Price;
+            product.ImgUrl = updateDto.ImgUrl;
+            product.SKU = updateDto.SKU;
+            product.Stock = updateDto.Stock;
+            product.UpdateDate = DateTime.Now;
+            product.CategoryId = updateDto.CategoryId;
+            // No cambies CreationDate
+
             return save();
         }
 
-   public      ICollection<Product> SearchProducts(string searchTerm)
+
+        public ICollection<Product> SearchProducts(string searchTerm)
         {
             if (string.IsNullOrEmpty(searchTerm)) return _dbContext.Products.ToList();
           return   _dbContext.Products

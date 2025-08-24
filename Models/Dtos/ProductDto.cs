@@ -7,7 +7,6 @@ namespace ApiEcommerce.Models.Dtos
     {
         public int ProductId { set; get; }
 
-        public required Category Category { set; get; }
         public string Name { get; set; }=string.Empty;
         public string Description { get; set; } = string.Empty;
 
@@ -17,6 +16,8 @@ namespace ApiEcommerce.Models.Dtos
         public int Stock { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime? UpdateDate { get; set; } = null;
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; } = string.Empty;
     }
 }
 
