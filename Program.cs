@@ -13,7 +13,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServe
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowCors",
+        builder =>
+        {
+            builder.WithOrigins("localhost:3000").AllowAnyHeader().AllowAnyMethod();
+        }
+        );
 
+});
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllers();
@@ -34,5 +43,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseCors("AllowCors");
 
 app.Run();
