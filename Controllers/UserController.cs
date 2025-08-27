@@ -3,6 +3,8 @@ using ApiEcommerce.Models.Dtos;
 using ApiEcommerce.Repository.IRepository;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Threading.Tasks;
 
 namespace ApiEcommerce.Controllers
 {
@@ -19,14 +21,14 @@ namespace ApiEcommerce.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("",Name ="GetUsers")]
+        [HttpGet("GetUsers", Name ="GetUsers")]
         public IActionResult GetUsers()
         {
             var users = _userRepository.GetUsers();
             var userDto= _mapper.Map<List<UserDto>>(users);
             return Ok(userDto);
         }
-        [HttpGet("{UserId:int}",Name ="GetUser")]
+        [HttpGet("GetUser{UserId:int}", Name ="GetUser")]
         public IActionResult GetUser(int UserId) {
 
             if (UserId <= 0) return BadRequest("El UserId no es valido");
@@ -35,11 +37,29 @@ namespace ApiEcommerce.Controllers
             var userDto = _mapper.Map<UserDto>(user);
             return Ok(user);
         }
-        [HttpPost]
-        public IActionResult CreateUser(UserRegisterDto userRegisterDto)
+        [HttpPost("Register", Name ="Register")]
+        public async  Task<ActionResult> CreateUser(CreateUserDto createUserDto)
         {
+            
+            if (createUserDto == null) return NoContent();
+            if (string.IsNullOrWhiteSpace(createUserDto.Username)) return BadRequest($"Username invalido");
+            if (!_userRepository.IsUniqueUser(createUserDto.Username)) return BadRequest($"El user {createUserDto.Username} ya existe");
+            var user = await _userRepository.Register(createUserDto);
+            if (user == null) return BadRequest("Algo salio mal al crear el usuario");
+            return CreatedAtRoute("GetUser", new {id=user.Id});
+        }
 
+        [HttpPost("Login", Name ="Login")]
+
+        public async Task<IActionResult> Login(UserLoginDto userLoginDto)
+        {
+            if (userLoginDto == null) return BadRequest();
+            if (string.IsNullOrWhiteSpace(userLoginDto.Username) || !ModelState.IsValid) return BadRequest(ModelState);
+            var user = await _userRepository.Login(userLoginDto);
+            if (user == null) return Unauthorized();
+            return Ok(user);
 
         }
+
     }
 }
