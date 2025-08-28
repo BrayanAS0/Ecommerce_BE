@@ -2,6 +2,7 @@
 using ApiEcommerce.Models.Dtos;
 using ApiEcommerce.Repository.IRepository;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace ApiEcommerce.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class UserController:ControllerBase
     {
         private readonly IUserRepository _userRepository;
@@ -38,6 +40,7 @@ namespace ApiEcommerce.Controllers
             return Ok(user);
         }
         [HttpPost("Register", Name ="Register")]
+        [AllowAnonymous]
         public async  Task<ActionResult> CreateUser(CreateUserDto createUserDto)
         {
             
@@ -50,6 +53,7 @@ namespace ApiEcommerce.Controllers
         }
 
         [HttpPost("Login", Name ="Login")]
+        [AllowAnonymous]
 
         public async Task<IActionResult> Login(UserLoginDto userLoginDto)
         {

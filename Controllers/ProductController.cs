@@ -4,12 +4,14 @@ using ApiEcommerce.Models.Dtos;
 using ApiEcommerce.Repository;
 using ApiEcommerce.Repository.IRepository;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiEcommerce.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles ="Admin")]
 public class ProductController:ControllerBase
     {
     private readonly IProductRepository _productRepository;

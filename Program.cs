@@ -3,8 +3,8 @@ using ApiEcommerce.Mapping;
 using ApiEcommerce.Repository;
 using ApiEcommerce.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using AutoMapper;
+using Microsoft.OpenApi.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");//para optener la conexion
@@ -27,8 +27,38 @@ builder.Services.AddCors(options =>
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddSwaggerGen();
-var app = builder.Build();
+builder.Services.AddSwaggerGen(
+  options =>
+  {
+      options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+      {
+          Description = "Nuestra API utiliza la Autenticación JWT usando el esquema Bearer. \n\r\n\r" +
+                      "Ingresa la palabra a continuación el token generado en login.\n\r\n\r" +
+                      "Ejemplo: \"12345abcdef\"",
+          Name = "Authorization",
+          In = ParameterLocation.Header,
+          Type = SecuritySchemeType.Http,
+          Scheme = "Bearer"
+      });
+      options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    {
+      {
+        new OpenApiSecurityScheme
+        {
+          Reference = new OpenApiReference
+          {
+            Type = ReferenceType.SecurityScheme,
+            Id = "Bearer"
+          },
+          Scheme = "oauth2",
+          Name = "Bearer",
+          In = ParameterLocation.Header
+        },
+        new List<string>()
+      }
+    });
+  }
+); var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -39,10 +69,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllers();
 app.UseCors("AllowCors");
-
 app.Run();
