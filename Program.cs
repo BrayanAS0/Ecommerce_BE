@@ -1,10 +1,7 @@
-using DotNetEnv;
-
 var builder = WebApplication.CreateBuilder(args);
-Env.Load(); // This must appear before any access to the variables
+
 // Add services to the container.
-var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings");
-Console.WriteLine(connectionString);
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
